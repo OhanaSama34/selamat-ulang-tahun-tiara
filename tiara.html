@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Selamat Ulang Tahun Tiara!</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+            background: linear-gradient(to bottom, #fff5f5, #fed7e2);
+        }
+        .font-romantic {
+            font-family: 'Dancing Script', cursive;
+        }
+        .petal {
+            position: absolute;
+            background-color: #ffb7c5;
+            border-radius: 150% 0 150% 0;
+            opacity: 0.7;
+            pointer-events: none;
+            z-index: 10;
+            animation: fall linear infinite;
+        }
+        @keyframes fall {
+            0% { transform: translateY(-10vh) rotate(0deg); opacity: 0.8; }
+            100% { transform: translateY(100vh) rotate(360deg); opacity: 0; }
+        }
+        .card-tilt {
+            transition: transform 0.5s ease;
+        }
+        .card-tilt:hover {
+            transform: translateY(-10px) rotateX(5deg) rotateY(5deg);
+        }
+        .hidden-message {
+            display: none;
+        }
+    </style>
+</head>
+<body class="min-h-screen">
+
+    <!-- Floral Background Animation Container -->
+    <div id="petal-container" class="fixed inset-0 overflow-hidden pointer-events-none"></div>
+
+    <!-- Main Content -->
+    <main class="relative z-20 flex flex-col items-center justify-center min-h-screen p-6">
+        
+        <!-- Hero Section -->
+        <div class="text-center mb-12" id="hero">
+            <h1 class="text-pink-500 text-5xl md:text-7xl font-romantic mb-4 animate-bounce">
+                Selamat Ulang Tahun Tiara!
+            </h1>
+            <p class="text-gray-600 text-lg md:text-xl max-w-md mx-auto">
+                Hari ini adalah hari yang sangat spesial, sama kayak kamu
+            </p>
+        </div>
+
+        <!-- Interactive Gift Box -->
+        <div id="gift-container" class="cursor-pointer group relative mb-12">
+            <div id="gift-box" onclick="openGift()" class="w-48 h-48 bg-pink-400 rounded-lg shadow-2xl flex items-center justify-center transform transition-transform group-hover:scale-110 duration-300">
+                <div class="absolute w-full h-8 bg-pink-600"></div>
+                <div class="absolute w-8 h-full bg-pink-600"></div>
+                <div class="absolute -top-6 text-5xl">🎁</div>
+                <span class="text-white font-bold animate-pulse">Klik Aku!</span>
+            </div>
+        </div>
+
+        <!-- Surprise Message (Hidden Initially) -->
+        <div id="surprise-section" class="hidden-message max-w-2xl w-full bg-white/80 backdrop-blur-md p-8 rounded-3xl shadow-xl border-2 border-pink-200 text-center">
+            <h2 class="text-3xl font-romantic text-black mb-6">Untuk Tiara,</h2>
+            <div class="space-y-4 text-gray-700 leading-relaxed mb-8">
+                <p>"Di hari spesialmu ini, aku berharap semua kebahagiaan di dunia datang padamu. Selamat ulang tahun yang ke 21 hihihi."</p>
+                <p>"Semoga tahun ini penuh dengan cinta, tawa, dan semua hal indah yang kamu impikan, aamiinnn...."</p>
+            </div>
+            
+            <div class="grid grid-cols-2 gap-4 mb-8">
+                <div class="bg-pink-100 p-4 rounded-xl">
+                    <span class="block text-2xl">🌸</span>
+                    <span class="text-xs text-pink-700 font-semibold uppercase">Cantik</span>
+                </div>
+                <div class="bg-pink-100 p-4 rounded-xl">
+                    <span class="block text-2xl">✨</span>
+                    <span class="text-xs text-pink-700 font-semibold uppercase">Pengertian</span>
+                </div>
+                <div class="bg-pink-100 p-4 rounded-xl">
+                    <span class="block text-2xl">🧁</span>
+                    <span class="text-xs text-pink-700 font-semibold uppercase">Manis</span>
+                </div>
+                <div class="bg-pink-100 p-4 rounded-xl">
+                    <span class="block text-2xl">💖</span>
+                    <span class="text-xs text-pink-700 font-semibold uppercase">Anggun</span>
+                </div>
+            </div>
+
+            <button onclick="changeColor()" class="bg-pink-500 hover:bg-pink-600 text-white px-6 py-3 rounded-full font-semibold transition-colors duration-300 shadow-lg">
+                Klik untuk Keajaiban Lagi ✨
+            </button>
+        </div>
+
+        <!-- Floating Music Trigger (Optional UI) -->
+        <div class="mt-12 text-gray-400 text-sm italic">
+            Dibuat dengan segenap hati by Opel 🌸
+        </div>
+
+    </main>
+
+    <script>
+        // Function to create falling petals
+        function createPetal() {
+            const container = document.getElementById('petal-container');
+            const petal = document.createElement('div');
+            petal.classList.add('petal');
+            
+            // Random styling
+            const size = Math.random() * 15 + 10 + 'px';
+            petal.style.width = size;
+            petal.style.height = size;
+            petal.style.left = Math.random() * 100 + 'vw';
+            petal.style.animationDuration = Math.random() * 3 + 2 + 's';
+            petal.style.opacity = Math.random() * 0.5 + 0.3;
+            
+            container.appendChild(petal);
+            
+            // Remove petal after animation
+            setTimeout(() => {
+                petal.remove();
+            }, 5000);
+        }
+
+        // Generate petals periodically
+        setInterval(createPetal, 300);
+
+        function openGift() {
+            const giftBox = document.getElementById('gift-box');
+            const surprise = document.getElementById('surprise-section');
+            const hero = document.getElementById('hero');
+
+            // Sound effect would go here if needed
+            
+            // Confetti effect
+            confetti({
+                particleCount: 150,
+                spread: 70,
+                origin: { y: 0.6 },
+                colors: ['#ff69b4', '#ffb6c1', '#ffffff']
+            });
+
+            // Transition
+            giftBox.style.transform = "scale(0) rotate(180deg)";
+            setTimeout(() => {
+                document.getElementById('gift-container').classList.add('hidden');
+                hero.classList.add('hidden');
+                surprise.classList.remove('hidden-message');
+                surprise.classList.add('animate-fade-in-up');
+            }, 500);
+        }
+
+        function changeColor() {
+            const colors = ['#fce7f3', '#fbcfe8', '#f9a8d4', '#f472b6', '#ec4899'];
+            const randomColor = colors[Math.floor(Math.random() * colors.length)];
+            
+            // Trigger confetti again
+            confetti({
+                particleCount: 40,
+                angle: 60,
+                spread: 55,
+                origin: { x: 0 },
+                colors: [randomColor]
+            });
+            confetti({
+                particleCount: 40,
+                angle: 120,
+                spread: 55,
+                origin: { x: 1 },
+                colors: [randomColor]
+            });
+
+            // Update some text color
+            document.querySelector('h2').style.color = randomColor;
+        }
+
+        // Initialize with a few petals
+        window.onload = () => {
+            for(let i=0; i<10; i++) createPetal();
+        }
+    </script>
+
+    <style>
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .animate-fade-in-up {
+            animation: fadeInUp 0.8s ease-out forwards;
+        }
+    </style>
+</body>
+</html>
